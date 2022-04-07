@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  app:
+    build:
+      context: docker
+    volumes:
+      - ./app:/app/:cached
+    ports:
+      - 80:80
+    links:
+      - db
+
+  db:
+    image: mysql
+    env_file:
+      - docker/mysql.env
+    environment:
+      TZ: Europe/Moscow
+    hostname: db
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+  mysql:
+
+networks:
+  code-network:
+    driver: bridge
