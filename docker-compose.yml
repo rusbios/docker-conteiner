@@ -3,7 +3,7 @@ version: '3.4'
 services:
   app:
     build:
-      context: docker
+      context: .docker
     volumes:
       - ./app:/app/:cached
     ports:
@@ -14,7 +14,7 @@ services:
   db:
     image: mysql
     env_file:
-      - docker/mysql.env
+      - .docker/mysql.env
     environment:
       TZ: Europe/Moscow
     hostname: db
