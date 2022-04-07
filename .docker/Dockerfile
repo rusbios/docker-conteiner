@@ -26,7 +26,7 @@ RUN apt-get update; \
     composer phpunit
 
 COPY php/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
-COPY php/php-fpm.conf ./php/php.ini ./conf/env.conf /etc/php/$PHP_VERSION/fpm/
+COPY php/php-fpm.conf ./php/php.ini /etc/php/$PHP_VERSION/fpm/
 COPY nginx/default /etc/nginx/sites-enabled/default
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
