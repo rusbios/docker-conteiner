@@ -29,4 +29,9 @@ COPY php/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/
 COPY php/php-fpm.conf ./php/php.ini /etc/php/$PHP_VERSION/fpm/
 COPY nginx/default /etc/nginx/sites-enabled/default
 
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+WORKDIR /app
+
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
