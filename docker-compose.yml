@@ -1,31 +1,45 @@
-version: '3.4'
+version: '3.7'
 
 services:
-  app:
+  nginx:
+    image: nginx:1.21.1
+    ports:
+      - 80:80
+    volumes:
+      - ./site:/var/www/site/
+      - .docker/nginx/conf.d:/etc/nginx/conf.d:rw
+    depends_on:
+      - site
+    networks:
+      - bios
+
+  site:
     build:
       context: .docker
     volumes:
-      - ./app:/app/:cached
+      - ./site:/var/www/site/
     ports:
-      - 80:80
+      - 9000:9000
     links:
       - db
+    networks:
+      - bios
 
   db:
     image: mysql
     env_file:
-      - .docker/mysql.env
-    environment:
-      TZ: Europe/Moscow
+      - .docker/mysql/.env
     hostname: db
     volumes:
       - mysql:/var/lib/mysql
     ports:
       - 3306:3306
+    networks:
+      - bios
 
 volumes:
   mysql:
 
 networks:
-  code-network:
+  bios:
     driver: bridge
